@@ -1,0 +1,40 @@
+<meta http-equiv="refresh" content="60">
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-yellow.min.css" />
+</head>
+
+
+<body onload="loadXMLDoc();">
+<h3>Statistiques en direct</h3>
+<!-- <p>Ces statistiques sont mises &agrave; jour automatiquement &agrave; chaque minutes</p> -->
+<h4>Festival de Robotique 2017</h4>
+
+<p id="statusstr"></p>
+<p id="tableaupos"></p>
+<p id="winlose"></p>
+<!--<iframe src="http://douce-vie.ca/technonerdz/webhookcard.php" height="70%" width="100%"></iframe>-->
+<script>
+function loadXMLDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      team = JSON.parse(this.responseText);
+
+      document.getElementById("statusstr").innerHTML =
+      team.overall_status_str;
+
+      document.getElementById("tableaupos").innerHTML =
+       'Nous sommes pr&eacutesentement en position <b>' + team.qual.ranking.rank + '</b> sur <b>' + team.qual.num_teams + '</b> &eacutequipes.';
+
+       document.getElementById("winlose").innerHTML =
+        'Nous avons gagn&eacute <b>' + team.qual.ranking.record.wins + '</b> de nos matchs sur un total de <b>' + team.qual.ranking.matches_played + '</b> matchs jou&eacutes.';
+    }
+  };
+  xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2017qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
+  xhttp.send();
+}
+</script>
+
+</body>
