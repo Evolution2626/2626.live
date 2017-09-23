@@ -21,8 +21,7 @@ function loadXMLDoc() {
     if (this.readyState == 4 && this.status == 200) {
       team = JSON.parse(this.responseText);
 
-      document.getElementById("statusstr").innerHTML =
-      team.overall_status_str;
+      //document.getElementById("statusstr").innerHTML = team.overall_status_str;
 
       document.getElementById("tableaupos").innerHTML =
        'Nous sommes pr&eacutesentement en position <b>' + team.qual.ranking.rank + '</b> sur <b>' + team.qual.num_teams + '</b> &eacutequipes.';
