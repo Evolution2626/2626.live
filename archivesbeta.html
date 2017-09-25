@@ -97,7 +97,7 @@ html, body {
         jsonmatch = JSON.parse(this.responseText);
 
         document.getElementById("matchvideos").innerHTML =
-         'test';
+         'test' + jsonmatch.qcmo[0].score[1];
       }
     };
     xhttp.open('GET', 'https://2626.live/data/2017.json');
