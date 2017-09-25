@@ -97,7 +97,7 @@ html, body {
         jsonmatch = JSON.parse(this.responseText);
 
         document.getElementById("matchvideos").innerHTML =
-         '<table class="match-table insights-table"> <thead> <tr class="key"> <th colspan="3">Teams</th> <th>Score</th> </tr> </thead> <tbody> <tr> <td class="red"><a href="/team/' + jsonmatch.qcmo[0].redalliance[0] + '/">' + jsonmatch.qcmo[0].redalliance[0] + '</a></td> <td class="red"><a href="/team/' + jsonmatch.qcmo[0].redalliance[1] + '/">' + jsonmatch.qcmo[0].redalliance[1] + '</a></td> <td class="red"><a href="/team/' + jsonmatch.qcmo[0].redalliance[2] + '/">' + jsonmatch.qcmo[0].redalliance[2] + '</a></td> <td class="redScore">' + jsonmatch.qcmo[0].score[0] + '</td> </tr> <tr> <td class="blue"><a href="/team/' + jsonmatch.qcmo[0].bluealliance[0] + '/">' + jsonmatch.qcmo[0].bluealliance[0] + '</a></td> <td class="blue"><a href="/team/' + jsonmatch.qcmo[0].bluealliance[1] + '/">' + jsonmatch.qcmo[0].bluealliance[1] + '</a></td> <td class="blue"><a href="/team/' + jsonmatch.qcmo[0].bluealliance[2] + '/">' + jsonmatch.qcmo[0].bluealliance[2] + '</a></td> <td class="blueScore">' + jsonmatch.qcmo[0].score[1] + '</td> </tr> </tbody> </table>';
+         'test';
     };
     xhttp.open('GET', 'https://2626.live/data/2017.json');
     xhttp.send();
