@@ -1,0 +1,106 @@
+
+
+
+<head>
+
+
+  <title>Evolution en direct</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-yellow.min.css" />
+  <link rel="stylesheet" href="https://www.thebluealliance.com/css/tba_combined_style.main.min.css" />
+
+  <style type="text/css">
+html, body {
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+}
+
+.container {
+    width:100%;
+}
+
+.column {
+    width:80%;
+    height:90%;
+    float:left;
+}
+
+.column img {
+    width:100%;
+    height:auto;
+}
+
+.chat {
+    width:20%;
+    height:90%;
+    float:left;
+}
+
+.chat img {
+    width:100%;
+    height:auto;
+}
+
+
+</style>
+</head>
+
+<header onload="loadXMLDoc();">
+  <!-- Always shows a header, even in smaller screens. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">Evolution 2626 en direct</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation. We hide it in small screens. -->
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+          <a class="mdl-navigation__link" href="/">En direct</a>
+          <a class="mdl-navigation__link" href="/archives.html">Archives</a>
+          <a class="mdl-navigation__link" href="http://evolution2626.org">Site web de l'&eacute;quipe</a>
+        </nav>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Evolution 2626</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="/">En direct</a>
+        <a class="mdl-navigation__link" href="/archives.html">Archives</a>
+        <a class="mdl-navigation__link" href="http://evolution2626.org">Site web de l'&eacute;quipe</a>
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+
+        <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col"></div>
+<p  id="matchvideos"></p>
+
+</div>
+
+
+
+    </div>
+    </main>
+  </div>
+
+  <script>
+  function loadXMLDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        jsonmatch = JSON.parse(this.responseText);
+
+        document.getElementById("matchvideos").innerHTML =
+         '<table class="match-table insights-table"> <thead> <tr class="key"> <th colspan="3">Teams</th> <th>Score</th> </tr> </thead> <tbody> <tr> <td class="red"><a href="/team/' + jsonmatch.qcmo[0].redalliance[0] + '/">' + jsonmatch.qcmo[0].redalliance[0] + '</a></td> <td class="red"><a href="/team/' + jsonmatch.qcmo[0].redalliance[1] + '/">' + jsonmatch.qcmo[0].redalliance[1] + '</a></td> <td class="red"><a href="/team/' + jsonmatch.qcmo[0].redalliance[2] + '/">' + jsonmatch.qcmo[0].redalliance[2] + '</a></td> <td class="redScore">' + jsonmatch.qcmo[0].score[0] + '</td> </tr> <tr> <td class="blue"><a href="/team/' + jsonmatch.qcmo[0].bluealliance[0] + '/">' + jsonmatch.qcmo[0].bluealliance[0] + '</a></td> <td class="blue"><a href="/team/' + jsonmatch.qcmo[0].bluealliance[1] + '/">' + jsonmatch.qcmo[0].bluealliance[1] + '</a></td> <td class="blue"><a href="/team/' + jsonmatch.qcmo[0].bluealliance[2] + '/">' + jsonmatch.qcmo[0].bluealliance[2] + '</a></td> <td class="blueScore">' + jsonmatch.qcmo[0].score[1] + '</td> </tr> </tbody> </table>';
+    };
+    xhttp.open('GET', 'https://2626.live/data/2017.json');
+    xhttp.send();
+  }
+  </script>
+</header>
