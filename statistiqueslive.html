@@ -14,6 +14,7 @@
 <!-- <p id="statusstr"></p> -->
 <p id="tableaupos"></p>
 <p id="winlose"></p>
+<p id="nextmatchstr"></p>
 <script>
 function loadXMLDoc() {
   var xhttp = new XMLHttpRequest();
@@ -32,6 +33,22 @@ function loadXMLDoc() {
   };
   xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2017qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
   xhttp.send();
+  
+  getnextmatch();
+}
+  
+  
+  function getnextmatch() {
+  var nextm = new XMLHttpRequest();
+  nextm.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      tbanm = this.responseText;
+
+     document.getElementById("nextmatchstr").innerHTML = '' + tbanm;
+    }
+  };
+  nextm.open('GET', 'https://www.thebluealliance.com/_/nightbot/nextmatch/2626');
+  nextm.send();
 }
 </script>
 
