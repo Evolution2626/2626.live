@@ -104,6 +104,18 @@ html, body {
            </button>
           </div>
       <div class="mdl-cell mdl-cell--3-col"></div>
+      <div class="mdl-cell mdl-cell--3-col"><img src="https://i.ytimg.com/vi/TgjQy4T-OVk/hqdefault.jpg" height="150" width="100%" onclick="
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'QzqykTxFJ3M',
+          playerVars: { 'autoplay': 1, 'controls': 0, 'rel': 0, 'showinfo': 0 },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+        "></div>
 </div>
 
 <script>
