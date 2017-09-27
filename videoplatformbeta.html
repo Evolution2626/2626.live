@@ -91,7 +91,7 @@ html, body {
           </div>
       <div class="mdl-cell mdl-cell--2-col">
            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="player.pauseVideo();">
-            <i class="material-icons">pause</i>
+            <i class="material-icons" id="playpausebutton">pause</i>
            </button>
           </div>
       <div class="mdl-cell mdl-cell--2-col">
@@ -139,6 +139,9 @@ html, body {
         if (event.data == YT.PlayerState.PLAYING && !done) {
           setTimeout(stopVideo, 6000);
           done = true;
+          document.getElementById("playpausebutton").innerHTML = "pause";
+        }else{
+          document.getElementById("playpausebutton").innerHTML = "play_arrow";
         }
       }
       function stopVideo() {
