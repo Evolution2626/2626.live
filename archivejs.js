@@ -29,12 +29,14 @@ matchesreq.onreadystatechange = function() {
 
     var suggestedvids = document.getElementById('suggestedvids');
     for (var i = 0; i < matchesresp.length; i++) {
+      if (typeof matchesresp[i].videos[0] !== 'undefined') {
       var suggestedmvid = matchesresp[i].videos[0].key;
       var suggestedmid = i + 1;
       var sveventkey = matchesresp[i].event_key;
       var svtitle = matchesresp[i].key;
       var svrealtitle = svtitle.replace(sveventkey + '_', "");
       suggestedvids.innerHTML += '<div class="mdl-cell mdl-cell--2-col"><p><a href="/archives?t=' + team + '&amp;e=' + eventid + '&amp;m=' + suggestedmid + '&amp;ap=1"><img src="https://i.ytimg.com/vi/' + suggestedmvid + '/hqdefault.jpg" alt="" width="100%" /></a></p><h4 style="text-align: center;">' + svrealtitle + '</h4></div>';
+      }
     }
   }
 };
