@@ -20,7 +20,11 @@ matchesreq.onreadystatechange = function() {
     if (typeof matchesresp[matchnb] === 'undefined') {
       mainvid.innerHTML += "<p>Ce match n'existe pas!</p>";
     } else {
+      if (typeof matchesresp[matchnb].videos[0].key === 'undefined') {
+        mainvid.innerHTML += "<p>Pas de videos disponibles!</p>";
+        } else {
       mainvid.innerHTML += '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=0" frameborder="0" allowfullscreen></iframe>';
+    }
     }
 
     var suggestedvids = document.getElementById('suggestedvids');
