@@ -3,12 +3,14 @@ var url = new URL(url_string);
 var team = url.searchParams.get("t");
 var eventid = url.searchParams.get("e");
 var matchnb = url.searchParams.get("m");
+var autoplay = url.searchParams.get("ap");
 
 var matchesreq = new XMLHttpRequest();
 
 if (!team) team = 2626;
 if (!eventid) eventid = '2017qcmo';
 if (!matchnb) matchnb = 1;
+if (!autoplay) autoplay = 0;
 
 matchnb = matchnb - 1;
 matchesreq.onreadystatechange = function() {
@@ -23,7 +25,7 @@ matchesreq.onreadystatechange = function() {
       if (typeof matchesresp[matchnb].videos[0] === 'undefined') {
         mainvid.innerHTML += "<p>Pas de videos disponibles!</p>";
         } else {
-      mainvid.innerHTML += '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=0" frameborder="0" allowfullscreen></iframe>';
+      mainvid.innerHTML += '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=' + autoplay + '" frameborder="0" allowfullscreen></iframe>';
     }
     }
 
