@@ -20,12 +20,12 @@ matchesreq.onreadystatechange = function() {
     var mainvid = document.getElementById('mainvid');
     //var embededvideo = matchesresp[matchnb].videos[0].key;
     if (typeof matchesresp[matchnb] === 'undefined') {
-      mainvid.innerHTML += "<p>Ce match n'existe pas!</p>";
+      mainvid.innerHTML = "<p>Ce match n'existe pas!</p>";
     } else {
       if (typeof matchesresp[matchnb].videos[0] === 'undefined') {
-        mainvid.innerHTML += '<p>Il n\'y a aucune vid&eacute;o de disponible pour ce match. <a href="https://www.thebluealliance.com/suggest/match/video?match_key=' + matchesresp[matchnb].key + '" target="_blank" rel="noopener">En proposer une</a></p>';
+        mainvid.innerHTML = '<p>Il n\'y a aucune vid&eacute;o de disponible pour ce match. <a href="https://www.thebluealliance.com/suggest/match/video?match_key=' + matchesresp[matchnb].key + '" target="_blank" rel="noopener">En proposer une</a></p>';
         } else {
-      mainvid.innerHTML += '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=' + autoplay + '" frameborder="0" allowfullscreen></iframe>';
+      mainvid.innerHTML = '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=' + autoplay + '" frameborder="0" allowfullscreen></iframe>';
     }
     }
 
