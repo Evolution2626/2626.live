@@ -1,5 +1,3 @@
-
-function loadVids() {
 var url_string = location.href;
 var url = new URL(url_string);
 var team = url.searchParams.get("t");
@@ -46,4 +44,3 @@ matchesreq.onreadystatechange = function() {
 };
 matchesreq.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team +'/event/' + eventid + '/matches?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
 matchesreq.send();
-}
