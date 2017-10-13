@@ -1,9 +1,9 @@
-var url_string = location.href;
-var url = new URL(url_string);
-var team = url.searchParams.get("t");
-var eventid = url.searchParams.get("e");
-var matchnb = url.searchParams.get("m");
-var autoplay = url.searchParams.get("ap");
+var query_string = location.search;
+var parsed_qs = parse_query_string(query_string);
+var team = parsed_qs.t;
+var eventid = parsed_qs.e;
+var matchnb = parsed_qs.m;
+var autoplay = parsed_qs.ap;
 
 var matchesreq = new XMLHttpRequest();
 
@@ -44,3 +44,23 @@ matchesreq.onreadystatechange = function() {
 };
 matchesreq.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team +'/event/' + eventid + '/matches?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
 matchesreq.send();
+
+function parse_query_string(query) {
+  var vars = query.split("&");
+  var query_string = {};
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+      // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+      query_string[pair[0]] = arr;
+      // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  }
+  return query_string;
+}
