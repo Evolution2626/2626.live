@@ -1,4 +1,5 @@
 var query_string = location.search;
+query_string = query_string.replace('?', '&');
 var parsed_qs = parse_query_string(query_string);
 var team = parsed_qs.t;
 var eventid = parsed_qs.e;
