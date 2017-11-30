@@ -5,7 +5,7 @@
 </head>
 
 
-<body onload="loadXMLDoc();">
+<body>
 <h3>Statistiques en direct</h3>
 <!-- <p>Ces statistiques sont mises &agrave; jour automatiquement &agrave; chaque minutes</p> -->
 <h4>Festival de Robotique 2017</h4>
@@ -14,8 +14,12 @@
 <p id="tableaupos"></p>
 <p id="winlose"></p>
 <script>
+  loadStats();
 window.setInterval(function(){
-  function loadXMLDoc() {
+  loadStats();
+}, 60000);
+  
+  function loadStats() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -30,7 +34,6 @@ window.setInterval(function(){
    xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2017qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
    xhttp.send();
   }
-}, 60000);
 </script>
 
 </body>
