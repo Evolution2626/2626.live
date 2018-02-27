@@ -20,6 +20,10 @@ window.setInterval(function(){
   loadStats();
 }, 60000);
 
+window.setInterval(function(){
+  loadMatchs();
+}, 600000);
+
   function loadStats() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -34,7 +38,9 @@ window.setInterval(function(){
     };
    xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2017qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
    xhttp.send();
+      }
 
+  function loadMatchs(){
 
     var xhttpmatchs = new XMLHttpRequest();
     xhttpmatchs.onreadystatechange = function() {
@@ -59,8 +65,6 @@ window.setInterval(function(){
     };
    xhttpmatchs.open('GET', 'https://2626.live/data/matchs/2017.json');
    xhttpmatchs.send();
-
-
 
   }
 </script>
