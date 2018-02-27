@@ -1,4 +1,5 @@
 <head>
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-yellow.min.css" />
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 </head>
 
@@ -11,6 +12,8 @@
 <!-- <p id="statusstr"></p> -->
 <p id="tableaupos"></p>
 <p id="winlose"></p>
+<h3 style="text-align: center;">Horaire des matchs</h3>
+<div id="matchlist"></div>
 <script>
   loadStats();
 window.setInterval(function(){
@@ -31,20 +34,34 @@ window.setInterval(function(){
     };
    xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2017qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
    xhttp.send();
-    
-    
+
+
     var xhttpmatchs = new XMLHttpRequest();
     xhttpmatchs.onreadystatechange = function() {
       if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
        var matchsparsed = JSON.parse(this.responseText);
-        
+
+       for (var i = 0; i < matchsparsed.length; i++) {
+         var thismatch = matchsparsed[i];
+
+         document.getElementById("matchlist").innerHTML +=
+         '<h4 style="text-align: center;">' + thismatch[0] + '</h4>';
+
+         document.getElementById("matchlist").innerHTML +=
+         '<p style="text-align: center;">' + thismatch[2] + '</p>';
+
+         document.getElementById("matchlist").innerHTML +=
+         '<iframe src="https://frccards.com/match?m=2016qcmo_qm57" scrolling="no" height="100px" width="100%" frameborder="0"></iframe>';
+
+       }
+
       }
     };
    xhttpmatchs.open('GET', 'https://2626.live/data/matchs/2017.json');
    xhttpmatchs.send();
-    
-    
-    
+
+
+
   }
 </script>
 
