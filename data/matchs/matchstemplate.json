@@ -2,12 +2,12 @@
   [
     "match name",
     "match_key",
-    [ //red
+    [
       1111,
       2222,
       3333
     ],
-    [ //blue
+    [
       4444,
       5555,
       6666
@@ -15,3 +15,6 @@
     "date"
   ]
 ]
+
+
+first alliance is the red alliance, second is the blue
