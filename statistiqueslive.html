@@ -4,9 +4,9 @@
 
 
 <body>
-<h3>Statistiques en direct</h3>
+<h3 style="text-align: center;">Statistiques en direct</h3>
 <!-- <p>Ces statistiques sont mises &agrave; jour automatiquement &agrave; chaque minutes</p> -->
-<h4>Festival de Robotique 2017</h4>
+<h4 style="text-align: center;">Festival de Robotique 2018</h4>
 
 <!-- <p id="statusstr"></p> -->
 <p id="tableaupos"></p>
@@ -37,7 +37,7 @@ window.setInterval(function(){
          'Nous avons gagn&eacute <b>' + team.qual.ranking.record.wins + '</b> de nos matchs sur un total de <b>' + team.qual.ranking.matches_played + '</b> matchs jou&eacutes.';
       }
     };
-   xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2017qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
+   xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2018qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
    xhttp.send();
       }
 
