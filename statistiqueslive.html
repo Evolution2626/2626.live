@@ -48,8 +48,7 @@ window.setInterval(function(){
       if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
        var matchsparsed = JSON.parse(this.responseText);
 
-       document.getElementById("matchlist").innerHTML =
-       '';
+       document.getElementById("matchlist").innerHTML = '';
 
        for (var i = 0; i < matchsparsed.length; i++) {
          var thismatch = matchsparsed[i];
