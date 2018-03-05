@@ -27,7 +27,7 @@ matchesreq.onreadystatechange = function() {
         mainvid.innerHTML = '<p>Il n\'y a aucune vid&eacute;o de disponible pour ce match. <a href="https://www.thebluealliance.com/suggest/match/video?match_key=' + matchesresp[matchnb].key + '" target="_blank" rel="noopener">En proposer une</a></p>';
         } else {
       mainvid.innerHTML = '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=' + autoplay + '" frameborder="0" allowfullscreen></iframe>';
-      mainvid.innerHTML += '<p style="text-align: center;"><iframe src="https://frccards.com/match?m=' + matchesresp[i].key + '" width="400" height="100px" frameborder="0" scrolling="no"></iframe></p>';
+      mainvid.innerHTML += '<p style="text-align: center;"><iframe src="https://frccards.com/match?m=' + matchesresp[matchnb].key + '" width="400" height="100px" frameborder="0" scrolling="no"></iframe></p>';
     }
     }
 
