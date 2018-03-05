@@ -9,7 +9,7 @@ var autoplay = parsed_qs.ap;
 var matchesreq = new XMLHttpRequest();
 
 if (!team) team = 2626;
-if (!eventid) eventid = '2017qcmo';
+if (!eventid) eventid = '2018qcmo';
 if (!matchnb) matchnb = 1;
 if (!autoplay) autoplay = 0;
 
