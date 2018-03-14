@@ -47,6 +47,22 @@ matchesreq.onreadystatechange = function() {
 matchesreq.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team +'/event/' + eventid + '/matches?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
 matchesreq.send();
 
+var panelrequest = new XMLHttpRequest();
+    panelrequest.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        teamsyp = JSON.parse(this.responseText);
+
+        for (var i = 0; i < teamsyp.length; i++) {
+          var lftmenu = document.getElementById('leftmenu');
+          lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="location.href=\'player.html?t=' + team + '&amp;e=' + eventid + '&amp;m=1&amp;y='+ teamsyp[i] +'\';">' + teamsyp[i] + '</li>';
+        }
+
+      }
+    };
+    panelrequest.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team + '/years_participated?X-TBA-Auth-Key=nPMen3xyCoAZEXFnyhx0SFae6fLNmpyohlQb74J9BaHojEp0jCg8AE8iBur9w8cF');
+    panelrequest.send();
+
+
 function parse_query_string(query) {
   var vars = query.split("&");
   var query_string = {};
