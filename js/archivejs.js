@@ -54,12 +54,12 @@ var panelrequest = new XMLHttpRequest();
 
         for (var i = 0; i < teamsyp.length; i++) {
           var lftmenu = document.getElementById('leftmenu');
-          lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="location.href=\'player.html?t=' + team + '&amp;e=' + eventid + '&amp;m=1&amp;y='+ teamsyp[i] +'\';">' + teamsyp[i] + '</li>';
+          lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="location.href=\'archives?e='+ teamsyp[i] +'\';">' + teamsyp[i] + '</li>';
         }
 
       }
     };
-    panelrequest.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team + '/years_participated?X-TBA-Auth-Key=nPMen3xyCoAZEXFnyhx0SFae6fLNmpyohlQb74J9BaHojEp0jCg8AE8iBur9w8cF');
+    panelrequest.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team + '/events/keys?X-TBA-Auth-Key=nPMen3xyCoAZEXFnyhx0SFae6fLNmpyohlQb74J9BaHojEp0jCg8AE8iBur9w8cF');
     panelrequest.send();
 
 
