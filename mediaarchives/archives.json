@@ -1,0 +1,13 @@
+{
+  "television": [
+
+  ],
+  "radio": [
+    {
+      "title": "Un bel exemple de succès d'un programme de robotique au secondaire !",
+      "station": "107.7 FM Estrie",
+      "mp3": "/mediaarchives/radio/2018-05-04-107-7.mp3",
+      "url": "http://www.fm1077.ca/extraits-audios/faits-divers/107362/un-bel-exemple-de-succes-dun-programme-de-robotique-au-secondaire"
+    }
+  ]
+}
