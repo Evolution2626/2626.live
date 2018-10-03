@@ -12,6 +12,7 @@ if (!team) team = 2626;
 if (!eventid) eventid = '2018qcmo';
 if (!matchnb) matchnb = 1;
 
+resize();
 
 matchnb = matchnb - 1;
 matchesreq.onreadystatechange = function() {
@@ -99,8 +100,9 @@ function showVideo(videokey, matchkey, matchid) {
 
   setHashParams([['m', matchid]]);
 
-  mainvid.innerHTML = '<iframe width="100%" height="700" src="https://www.youtube.com/embed/' + videokey + '?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe>';
-  mainvid.innerHTML += '<p style="text-align: center;"><iframe src="https://frccards.com/match?m=' + matchkey + '" width="400" height="100px" frameborder="0" scrolling="no"></iframe></p>';
+  mainvid.innerHTML = '<iframe width="100%" height="700px" src="https://www.youtube.com/embed/' + videokey + '?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen id="ytplay"></iframe>';
+  mainvid.innerHTML += '<p style="text-align: center;"><iframe width="100%" height="100px" src="https://frccards.com/match?m=' + matchkey + '" frameborder="0" scrolling="no" id="frccard"></iframe></p>';
+  resize();
 }
 
 function setHashParams(newhash){
@@ -151,4 +153,19 @@ function getHashParams() {
   }, {});
 
   return gethashparams;
+}
+
+
+window.addEventListener('resize', resize);
+function resize(){
+  var windowHeight = window.innerHeight;
+  console.log(windowHeight);
+  var rsv = document.getElementById('suggestedvids');
+  var ryt = document.getElementById('ytplay');
+  var rfrcc = document.getElementById('frccard');
+
+  if (rsv) { rsv.style.height = (((windowHeight-64)/874) * 800) + "px"; }
+  if (ryt) { ryt.height = (((windowHeight-64)/874) * 700) + "px"; }
+  if (rfrcc) { rfrcc.height = (((windowHeight-64)/874) * 100) + "px"; }
+
 }
