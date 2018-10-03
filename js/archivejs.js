@@ -1,47 +1,60 @@
-var query_string = location.search;
-query_string = query_string.replace('?', '&');
-var parsed_qs = parse_query_string(query_string);
-var team = parsed_qs.t;
-var eventid = parsed_qs.e;
-var matchnb = parsed_qs.m;
-var autoplay = parsed_qs.ap;
+
+hashparams = getHashParams();
+
+var team = hashparams["t"];
+var eventid = hashparams["e"];
+var matchnb = hashparams["m"];
+
 
 var matchesreq = new XMLHttpRequest();
 
 if (!team) team = 2626;
 if (!eventid) eventid = '2018qcmo';
 if (!matchnb) matchnb = 1;
-if (!autoplay) autoplay = 0;
+
 
 matchnb = matchnb - 1;
 matchesreq.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     matchesresp = JSON.parse(this.responseText);
 
-    var mainvid = document.getElementById('mainvid');
-    //var embededvideo = matchesresp[matchnb].videos[0].key;
-    if (typeof matchesresp[matchnb] === 'undefined') {
-      mainvid.innerHTML = "<p>Ce match n'existe pas!</p>";
-    } else {
-      if (typeof matchesresp[matchnb].videos[0] === 'undefined') {
-        mainvid.innerHTML = '<p>Il n\'y a aucune vid&eacute;o de disponible pour ce match. <a href="https://www.thebluealliance.com/suggest/match/video?match_key=' + matchesresp[matchnb].key + '" target="_blank" rel="noopener">En proposer une</a></p>';
-        } else {
-      mainvid.innerHTML = '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' + matchesresp[matchnb].videos[0].key + '?rel=0&amp;showinfo=0&amp;autoplay=' + autoplay + '" frameborder="0" allowfullscreen></iframe>';
-      mainvid.innerHTML += '<p style="text-align: center;"><iframe src="https://frccards.com/match?m=' + matchesresp[matchnb].key + '" width="400" height="100px" frameborder="0" scrolling="no"></iframe></p>';
-    }
-    }
-
-    var suggestedvids = document.getElementById('suggestedvids');
-    for (var i = 0; i < matchesresp.length; i++) {
-      if (typeof matchesresp[i].videos[0] !== 'undefined') {
-      var suggestedmvid = matchesresp[i].videos[0].key;
-      var suggestedmid = i + 1;
-      var sveventkey = matchesresp[i].event_key;
-      var svtitle = matchesresp[i].key;
-      var svrealtitle = svtitle.replace(sveventkey + '_', "");
-      suggestedvids.innerHTML += '<div class="mdl-cell mdl-cell--2-col"><p><a href="/archives?t=' + team + '&amp;e=' + eventid + '&amp;m=' + suggestedmid + '&amp;ap=1"><img src="https://i.ytimg.com/vi/' + suggestedmvid + '/hqdefault.jpg" alt="" width="100%" /></a></p><h4 style="text-align: center;">' + svrealtitle + '</h4></div>';
+    var sortedmatches = Enumerable.From(matchesresp)
+    .Where(function (x) { return true})
+    .OrderBy(function (x) {
+      var addvalue = 0;
+      switch (x.comp_level) {
+        case "qm":
+          addvalue = 0;
+          break;
+        case "ef":
+          addvalue = 500;
+          break;
+        case "qf":
+          addvalue = 1000;
+          break;
+        case "sf":
+          addvalue = 1500;
+          break;
+        case "f":
+          addvalue = 2000;
+          break;
+        default:
+          addvalue = 0;
       }
-    }
+
+      return (x.match_number + addvalue + (x.set_number * 20));
+     })
+    .OrderBy(function(x) { return x.event_key })
+    .Select(function (x) { return x })
+    .ToArray();
+
+    matchesresp = sortedmatches;
+
+
+    showVideo(matchesresp[matchnb].videos[0].key, matchesresp[0].key, matchnb+1);
+
+    suggestVids(matchesresp);
+
   }
 };
 matchesreq.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team +'/event/' + eventid + '/matches?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
@@ -52,9 +65,9 @@ var panelrequest = new XMLHttpRequest();
       if (this.readyState == 4 && this.status == 200) {
         teamsyp = JSON.parse(this.responseText);
 
-        for (var i = 0; i < teamsyp.length; i++) {
+        for (var i = teamsyp.length-1; i >=0 ; i--) {
           var lftmenu = document.getElementById('leftmenu');
-          lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="location.href=\'archives?e='+ teamsyp[i] +'\';">' + teamsyp[i] + '</li>';
+          lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="setHashParams([[\'e\', \'' + teamsyp[i] + '\']]); location.reload();">' + teamsyp[i] + '</li>';
         }
 
       }
@@ -62,23 +75,80 @@ var panelrequest = new XMLHttpRequest();
     panelrequest.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc' + team + '/events/keys?X-TBA-Auth-Key=nPMen3xyCoAZEXFnyhx0SFae6fLNmpyohlQb74J9BaHojEp0jCg8AE8iBur9w8cF');
     panelrequest.send();
 
+function suggestVids(matchesresp){
 
-function parse_query_string(query) {
-  var vars = query.split("&");
-  var query_string = {};
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
-    // If first entry with this name
-    if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-      // If second entry with this name
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
-      query_string[pair[0]] = arr;
-      // If third or later entry with this name
-    } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+  var suggestedvids = document.getElementById('suggestedvids');
+  suggestedvids.innerHTML = '';
+  for (var i = 0; i < matchesresp.length; i++) {
+    if (typeof matchesresp[i].videos[0] !== 'undefined') {
+    var suggestedmvid = matchesresp[i].videos[0].key;
+    var suggestedmid = i + 1;
+    var sveventkey = matchesresp[i].event_key;
+    var svtitle = matchesresp[i].key;
+    var svrealtitle = svtitle.replace(sveventkey + '_', "");
+    //suggestedvids.innerHTML += '<div class="mdl-cell mdl-cell--2-col"><p><a href="/archives?t=' + team + '&amp;e=' + eventid + '&amp;m=' + suggestedmid + '&amp;ap=1"><img src="https://i.ytimg.com/vi/' + suggestedmvid + '/hqdefault.jpg" alt="" width="100%" /></a></p><h4 style="text-align: center;">' + svrealtitle + '</h4></div>';
+
+    suggestedvids.innerHTML += '<div class="video-playlist-item" style="position: relative; margin-bottom: 5px;" onclick="showVideo(&quot;' + suggestedmvid + '&quot;, &quot;' + svtitle + '&quot;, &quot;' + suggestedmid + '&quot;);"> <div class="video-playlist-item-image" style="background-image: url(&quot;https://i.ytimg.com/vi/' + suggestedmvid + '/hqdefault.jpg&quot;); width: 100%; height: 168px; background-position: center; background-size: 100%;"></div> <div class="video-playlist-item-details" style="position: absolute; bottom: 10px; left: 10px; right: 10px; margin: 0; padding: 0;"> <span class="video-playlist-item-details-title" style="display: block; font-size: 16px; font-weight: bold; color: #fff; text-shadow: 1px 1px 3px #000;">' + svrealtitle + '</span> <span class="video-playlist-item-details-description"></span> </div> </div>';
     }
   }
-  return query_string;
+
+}
+
+function showVideo(videokey, matchkey, matchid) {
+  var mainvid = document.getElementById('mainvid');
+
+  setHashParams([['m', matchid]]);
+
+  mainvid.innerHTML = '<iframe width="100%" height="700" src="https://www.youtube.com/embed/' + videokey + '?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe>';
+  mainvid.innerHTML += '<p style="text-align: center;"><iframe src="https://frccards.com/match?m=' + matchkey + '" width="400" height="100px" frameborder="0" scrolling="no"></iframe></p>';
+}
+
+function setHashParams(newhash){
+
+  var hash = window.location.hash.substr(1);
+  var ghp = [];
+  var i = 0;
+  hash.split('&').reduce(function (voidd, item) {
+      var parts = item.split('=');
+      if (parts[0]) {
+        ghp[i] = []
+        ghp[i][0] = parts[0];
+        ghp[i][1] = parts[1];
+        i++;
+      }
+  }, {});
+
+  for (var n = 0; n < newhash.length; n++) {
+    var foundmatch = false;
+    for (var o = 0; o < ghp.length; o++) {
+      if (newhash[n][0] == ghp[o][0]) {
+        ghp[o][1] = newhash[n][1];
+        foundmatch = true;
+      }
+    }
+    if (!foundmatch) {
+      ghp.push(newhash[n]);
+    }
+  }
+  var hashText = "";
+  for (var i = 0; i < ghp.length; i++) {
+    if (i>0) { hashText += '&' }
+    hashText += ghp[i][0] + "=" + ghp[i][1];
+  }
+  location.hash = hashText;
+
+}
+
+
+
+function getHashParams() {
+  var hash = window.location.hash.substr(1);
+
+  var gethashparams = hash.split('&').reduce(function (result, item) {
+      var parts = item.split('=');
+      result[parts[0]] = parts[1];
+      return result;
+  }, {});
+
+  return gethashparams;
 }
