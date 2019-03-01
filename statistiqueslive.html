@@ -38,6 +38,22 @@ window.setInterval(function(){
    xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2019qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
    xhttp.send();
       }
+  
+    function loadMatchs(){
+    var xhttpmatchs = new XMLHttpRequest();
+    xhttpmatchs.onreadystatechange = function() {
+      if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+       var matchsparsed = JSON.parse(this.responseText);
+       document.getElementById("matchlist").innerHTML = '';
+       for (var i = 0; i < matchsparsed.length; i++) {
+         var thismatch = matchsparsed[i];
+         '<iframe src="https://frccards.com/match?m=' + thismatch + '" scrolling="no" height="100px" width="100%" frameborder="0"></iframe>';
+       }
+      }
+    };
+   xhttpmatchs.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2019qcmo/matches/keys?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze);
+   xhttpmatchs.send();
+  }
+  
 </script>
-
 </body>
