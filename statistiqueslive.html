@@ -35,39 +35,9 @@ window.setInterval(function(){
          'Nous avons gagn&eacute <b>' + team.qual.ranking.record.wins + '</b> de nos matchs sur un total de <b>' + team.qual.ranking.matches_played + '</b> matchs jou&eacutes.';
       }
     };
-   xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2018qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
+   xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2019qcmo/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
    xhttp.send();
       }
-
-  function loadMatchs(){
-
-    var xhttpmatchs = new XMLHttpRequest();
-    xhttpmatchs.onreadystatechange = function() {
-      if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
-       var matchsparsed = JSON.parse(this.responseText);
-
-       document.getElementById("matchlist").innerHTML = '';
-
-       for (var i = 0; i < matchsparsed.length; i++) {
-         var thismatch = matchsparsed[i];
-
-         document.getElementById("matchlist").innerHTML +=
-         '<h4 style="text-align: center;">' + thismatch[0] + '</h4>';
-
-         document.getElementById("matchlist").innerHTML +=
-         '<p style="text-align: center;">' + thismatch[2] + '</p>';
-
-         document.getElementById("matchlist").innerHTML +=
-         '<iframe src="https://frccards.com/match?m=' + thismatch[1] + '" scrolling="no" height="100px" width="100%" frameborder="0"></iframe>';
-
-       }
-
-      }
-    };
-   xhttpmatchs.open('GET', 'https://2626.live/data/matchs/2017.json');
-   xhttpmatchs.send();
-
-  }
 </script>
 
 </body>
