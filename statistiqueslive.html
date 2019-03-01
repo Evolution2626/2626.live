@@ -47,6 +47,7 @@ window.setInterval(function(){
        document.getElementById("matchlist").innerHTML = '';
        for (var i = 0; i < matchsparsed.length; i++) {
          var thismatch = matchsparsed[i];
+         document.getElementById("matchlist").innerHTML +=
          '<iframe src="https://frccards.com/match?m=' + thismatch + '" scrolling="no" height="100px" width="100%" frameborder="0"></iframe>';
        }
       }
