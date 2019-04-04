@@ -9,7 +9,7 @@ var matchnb = hashparams["m"];
 var matchesreq = new XMLHttpRequest();
 
 if (!team) team = 2626;
-if (!eventid) eventid = '2018qcmo';
+if (!eventid) eventid = '2019qcmo';
 if (!matchnb) matchnb = 1;
 
 resize();
