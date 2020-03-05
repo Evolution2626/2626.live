@@ -11,56 +11,5 @@
 <p id="tableaupos"></p>
 <p id="winlose"></p>
 <h3 style="text-align: center;">Horaire des matchs</h3>
-<div id="matchlist"></div>
-<script>
-  loadStats();
-window.setInterval(function(){
-  loadStats();
-}, 60000);
-
-loadMatchs();
-
-window.setInterval(function(){
-  loadMatchs();
-}, 600000);
-
-  function loadStats() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
-       team = JSON.parse(this.responseText);
-        document.getElementById("tableaupos").innerHTML =
-        'Nous sommes pr&eacutesentement en position <b>' + team.qual.ranking.rank + '</b> sur <b>' + team.qual.num_teams + '</b> &eacutequipes.';
-        document.getElementById("winlose").innerHTML =
-         'Nous avons gagn&eacute <b>' + team.qual.ranking.record.wins + '</b> de nos matchs sur un total de <b>' + team.qual.ranking.matches_played + '</b> matchs jou&eacutes.';
-      }
-    };
-   xhttp.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2019tes/status?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
-   xhttp.send();
-      }
-  
-    function loadMatchs(){
-    var xhttpmatchs = new XMLHttpRequest();
-    xhttpmatchs.onreadystatechange = function() {
-      if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
-       var matchsparsed = JSON.parse(this.responseText);
-       document.getElementById("matchlist").innerHTML = '';
-       for (var i = 0; i < matchsparsed.length; i++) {
-         var thismatch = matchsparsed[i]['key'];
-
-         var datePredicted = new Date(matchsparsed[i]['predicted_time'] * 1000);
-         
-         document.getElementById("matchlist").innerHTML += '<h3 style="text-align: center;">' + thismatch + '</h2>';
-         document.getElementById("matchlist").innerHTML += '<p style="text-align: center;">' + datePredicted.toLocaleString() + '</p>';
-         
-         document.getElementById("matchlist").innerHTML +=
-         '<iframe src="https://frccards.com/match?m=' + thismatch + '" scrolling="no" height="100px" width="100%" frameborder="0"></iframe>';
-       }
-      }
-    };
-   xhttpmatchs.open('GET', 'https://www.thebluealliance.com/api/v3/team/frc2626/event/2019tes/matches/simple?X-TBA-Auth-Key=wZjnIpA1EB2hq82k6hsmGHAGcsuqHJHrjLOeWp6MJTPuviWiUyipqLZsfa9kE3Ze');
-   xhttpmatchs.send();
-  }
-  
-</script>
+<div id="matchlist">L'horaire des matchs n'est pas encore disponible</div>
 </body>
