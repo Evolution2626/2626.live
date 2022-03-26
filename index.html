@@ -1,4 +1,3 @@
-
 <head>
 
     <link rel="icon" type="image/x-icon" href="https://evolution2626.org/assets/img/favicon.ico">
@@ -8,9 +7,11 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script defer src="js/live.js"></script>
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-yellow.min.css" />
+  <link rel="stylesheet" href="css/live.css">
 
-
+  <meta charset="utf-8">
   <meta name="description" content="Site web officiel pour regarder l'équipe Evolution 2626 en direct lors des compétitions. Retrouvez également les archives de nos matchs.">
   <meta name="keywords" content="Evolution 2626, live, en direct, archives, FIRST Robotics, FIRST Robotics Competition, robotics, first, firstrobotics, competition, team, regionals, matches, videos">
 
@@ -19,44 +20,6 @@
     <meta property="og:image" content="https://2626.live/img/2626logo.png" />
     <meta property="og:description" content="Site web officiel pour regarder l'équipe Evolution 2626 en direct lors des compétitions. Retrouvez également les archives de nos matchs."/>
     <meta property="og:site_name" content="Evolution 2626 en direct" />
-
-
-  <style type="text/css">
-html, body {
-    margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-}
-
-.container {
-    width:100%;
-}
-
-.column {
-    width:80%;
-    height:90%;
-    float:left;
-}
-
-.column img {
-    width:100%;
-    height:auto;
-}
-
-.chat {
-    width:20%;
-    height:90%;
-    float:left;
-}
-
-.chat img {
-    width:100%;
-    height:auto;
-}
-
-
-</style>
 </head>
 
 <header>
@@ -87,41 +50,16 @@ html, body {
     <main class="mdl-layout__content">
       <div class="page-content">
         <div>
-        <div class="column">
-          <iframe
-            src="https://www.thebluealliance.com/gameday#chat=hidden&layout=1&view_0=2020qcsh-0&view_1=2020qcsh-1"
-            height="100%"
-            width="100%"
-            frameborder="0"
-            scrolling="no"
-            allowfullscreen="true">
-          </iframe>
-        </div>
+        <div class="column" id="livestreamsDiv"></div>
 
         <div class="chat">
-          <iframe
-            src="statistiqueslive.html"
-            height="100%"
-            width="100%"
-            frameborder="0"
-            scrolling="yes"
-            allowfullscreen="true">
-          </iframe>
 
-          <!--<iframe
-            src="https://www.twitch.tv/embed/firstinspires/chat"
-            height="100%"
-            width="100%"
-            frameborder="0"
-            scrolling="no"
-            allowfullscreen="true">
-          </iframe>-->
+          <h3 style="text-align: center;" id="currentEventName"></h3>
+          <h4 style="text-align: center;">Horaire des matchs</h4>
+          <p style="text-align: center;" id="horaireMatchStatus"></p>
+          <span style="text-align: center;" id="horaireMatchs"></span>
         </div>
       </div>
-
-      <!--<div>
-        <h2 style="text-align: center;">Nous suivre en direct</h2>
-      </div>-->
 
     </div>
     </main>
