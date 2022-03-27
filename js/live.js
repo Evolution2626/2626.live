@@ -7,11 +7,17 @@ fetch("https://www.thebluealliance.com/api/v3/team/frc2626/events?X-TBA-Auth-Key
         console.log(eventListSorted);
 
         let currentEvent = getCurrentEventFromSortedEventList(eventListSorted);
+        
         loadSideBarFormCurrentEvent(currentEvent);
+
         loadMatchFromEvent(currentEvent["key"]);
+
+        var sidebarEventLoop = setInterval(function(){ loadMatchFromEvent(currentEvent["key"]) }, 70000)
+
         loadLivestreamsForEvent(currentEvent);
     })
 })
+
 
 function daysBetweenDates(d1, d2){
     return (Math.abs(d1.getTime() - d2.getTime()) / (1000*60*60*24))
