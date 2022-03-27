@@ -17,7 +17,7 @@ panelrequest.onreadystatechange = function() {
 
     var lftmenu = document.getElementById('leftmenu');
     for (var i = teamsyp.length-1; i >=0 ; i--) {
-      lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="setHashParams([[\'e\', \'' + teamsyp[i]["key"] + '\']]); location.reload();">' + teamsyp[i]["key"] + '</li>';
+      lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="resetHash(); setHashParams([[\'e\', \'' + teamsyp[i]["key"] + '\']]); location.reload();">' + teamsyp[i]["key"] + '</li>';
     }
 
     if (!eventid) eventid = getLatestEvent(teamsyp)["key"];
@@ -56,7 +56,9 @@ function getLatestEvent(events) {
     const event = events[i];
 
     if (!latestEvent || new Date(event["start_date"]) < new Date()) {
-      latestEvent = event;
+      if (event["key"] != "2020qcmo"){
+        latestEvent = event;
+      }
     }
   }
   return latestEvent;
@@ -98,6 +100,10 @@ function showVideo(videokey, matchkey) {
   mainvid.innerHTML = '<iframe width="100%" height="700px" src="https://www.youtube.com/embed/' + videokey + '?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen id="ytplay"></iframe>';
   mainvid.innerHTML += '<p style="text-align: center;"><iframe width="100%" height="100px" src="https://frccards.com/match?m=' + matchkey + '" frameborder="0" scrolling="no" id="frccard"></iframe></p>';
   resize();
+}
+
+function resetHash(){
+  window.location.hash = "";
 }
 
 function setHashParams(newhash){
