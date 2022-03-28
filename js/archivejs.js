@@ -8,6 +8,10 @@ var matchkey = hashparams["m"];
 
 if (!team) team = 2626;
 
+if (matchkey && !eventid && matchkey.split("_").length >= 1) {
+  eventid = matchkey.split("_")[0];
+}
+
 resize();
 
 var panelrequest = new XMLHttpRequest();
@@ -97,8 +101,7 @@ function showVideo(videokey, matchkey) {
 
   setHashParams([['m', matchkey]]);
 
-  mainvid.innerHTML = '<iframe width="100%" height="700px" src="https://www.youtube.com/embed/' + videokey + '?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen id="ytplay"></iframe>';
-  mainvid.innerHTML += '<p style="text-align: center;"><iframe width="100%" height="100px" src="https://frccards.com/match?m=' + matchkey + '" frameborder="0" scrolling="no" id="frccard"></iframe></p>';
+  mainvid.innerHTML = '<iframe width="100%" height="800px" src="https://www.youtube.com/embed/' + videokey + '?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen id="ytplay"></iframe>';
   resize();
 }
 
@@ -166,7 +169,6 @@ function resize(){
   var rfrcc = document.getElementById('frccard');
 
   if (rsv) { rsv.style.height = (((windowHeight-64)/874) * 800) + "px"; }
-  if (ryt) { ryt.height = (((windowHeight-64)/874) * 700) + "px"; }
-  if (rfrcc) { rfrcc.height = (((windowHeight-64)/874) * 100) + "px"; }
+  if (ryt) { ryt.height = (((windowHeight-64)/874) * 800) + "px"; }
 
 }
