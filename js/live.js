@@ -49,26 +49,24 @@ function loadSideBarFormCurrentEvent(currentEvent){
 function getMatchTimes(match){
 
     if (match["actual_time"]) {
-        return [["À été joué", dateToText(new Date(match["actual_time"]*1000))]]
+        return "À été joué " + dateToText(new Date(match["actual_time"]*1000));
     }
 
-    let matchTimes = [];
+    if (match["predicted_time"] && match["predicted_time"] > 0) {
+        return "Devrait être joué " + dateToText(new Date(match["predicted_time"]*1000));
+    }
 
     if (match["time"]) {
-        matchTimes.push([["Est prévu à l'horaire", dateToText(new Date(match["time"]*1000))]]);
+        return "Est prévu à l'horaire " + dateToText(new Date(match["time"]*1000));
     }
 
-    if (match["predicted_time"]) {
-        matchTimes.push([["Devrait être joué", dateToText(new Date(match["predicted_time"]*1000))]]);
-    }
-
-    return matchTimes;
+    return "";
 
 
 }
 
 function loadMatchFromEvent(eventKey){
-    fetch("https://www.thebluealliance.com/api/v3/team/frc2626/event/" + eventKey + "/matches/simple?X-TBA-Auth-Key=" + tbaKey).then(function(response){
+    fetch("https://www.thebluealliance.com/api/v3/team/frc2626/event/" + eventKey + "/matches?X-TBA-Auth-Key=" + tbaKey).then(function(response){
     response.json().then(function(data){
 
         data.sort(function(a,b){return (new Date(a["time"]*1000) - new Date(b["time"]*1000))})
@@ -78,28 +76,82 @@ function loadMatchFromEvent(eventKey){
             document.getElementById("horaireMatchStatus").innerText = "L'horaire des matchs n'est pas encore disponible";
         }else{
             document.getElementById("horaireMatchStatus").innerText = "";
+            document.getElementById("horaireMatchs").style.display = '';
         }
-        document.getElementById("horaireMatchs").innerHTML = "";
+        
+        document.getElementById("eventVideosButton").href = "/archives#e=" + eventKey;
+
+        document.getElementById("matchTableBody").innerHTML = "";
 
         for (let i = 0; i < data.length; i++) {
             const match = data[i];
-            document.getElementById("horaireMatchs").innerHTML += "<h4>Match " + match["comp_level"] + match["set_number"] + "m" + match["match_number"] + " :</h4>";
-            matchTimes = getMatchTimes(match);
-            for (let j = 0; j < matchTimes.length; j++) {
-                const matchTime = matchTimes[j];
-                document.getElementById("horaireMatchs").innerHTML += "<p>" + matchTime[0] + ": " + matchTime[1] + "</p>";
-            }
+            document.getElementById("matchTableBody").innerHTML += generateRowForMatch(match);
         }
     })
 })
 }
 
+
+function generateRowForMatch(match){
+    let alliance = "";
+
+    let blueAllianceAttributes = "";
+    let redAllianceAttributes = "";
+
+    if (match["winning_alliance"] == "blue") {
+        blueAllianceAttributes += " winner";
+    }
+
+    if (match["winning_alliance"] == "red") {
+        redAllianceAttributes += " winner";
+    }
+
+    if (match["alliances"]["red"]["team_keys"].includes("frc2626")) {
+        alliance = "red";
+        redAllianceAttributes += " current-team";
+    }else {
+        alliance = "blue";
+        blueAllianceAttributes += " current-team";
+    }
+
+    let videoButton = "";
+
+    if (match["videos"].length > 0) {
+        videoButton = '<a href="/archives#m=' + match["key"] + '"><span class="material-icons">play_circle</span></a>'
+    }
+
+    if (match["alliances"]["blue"]["score"] == -1 || match["alliances"]["red"]["score"] == -1) {
+        return '<tr>' + videoButton + '<td></td><td>' + getMatchName(match) + '<span class="allianceSquare ' + alliance + '"></span></td><td colspan="2">' + getMatchTimes(match) + '</td></tr>';
+    }
+
+    return '<tr><td>' + videoButton + '</td><td>' + getMatchName(match) + '<span class="allianceSquare ' + alliance + '"></span></td><td class="red' + redAllianceAttributes +'">' + match["alliances"]["red"]["score"] + '</td><td class="blue' + blueAllianceAttributes +'">' + match["alliances"]["blue"]["score"] + '</td></tr>'
+
+}
+
+function getMatchName(match){
+    if (match["comp_level"] == "qm") {
+        return "Match " + match["match_number"];
+    }
+
+    return match["comp_level"] + match["set_number"] + "m" + match["match_number"];
+}
+
 function loadLivestreamsForEvent(event){
     if (event["webcasts"] && event["webcasts"].length > 0) {
         let livestreamWidth = "100%";
+        let livestreamHeight = "100%";
 
         if (event["webcasts"].length >= 2){
-            livestreamWidth = "50%";
+            let windowWidth = document.getElementById("livestreamsDiv").offsetWidth;
+            let windowHeight = document.getElementById("livestreamsDiv").offsetHeight;
+            console.log(windowWidth)
+            console.log(windowHeight)
+            if (((16/9) * (windowHeight/2)) < (windowWidth/2)) {
+                livestreamWidth = "50%";
+                console.log((16/9) * windowHeight)
+            }else{
+                livestreamHeight = "50%";
+            }
         }
 
         document.getElementById("livestreamsDiv").innerHTML = "";
@@ -107,7 +159,7 @@ function loadLivestreamsForEvent(event){
             const webcast = event["webcasts"][i];
 
             if (webcast["type"] == "twitch") {
-                document.getElementById("livestreamsDiv").innerHTML += '<iframe class="livestreamframe" src="https://player.twitch.tv/?channel=' + webcast["channel"] + '&parent=2626.live" allowfullscreen style="width: ' + livestreamWidth + ';">';
+                document.getElementById("livestreamsDiv").innerHTML += '<iframe class="livestreamframe" src="https://player.twitch.tv/?channel=' + webcast["channel"] + '&parent=2626.live" allowfullscreen style="width: ' + livestreamWidth + '; height: ' + livestreamHeight + ';">';
             }
         }
     } else {

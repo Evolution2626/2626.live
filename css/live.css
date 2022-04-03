@@ -32,6 +32,63 @@ html, body {
 }
 
 .livestreamframe {
-    height: 100%;
     display: inline;
+}
+
+a {
+    color: #3f51b5;
+    text-decoration: none;
+}
+
+table.match-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+tr.key {
+    background-color: #f0f0f0;
+}
+
+table.match-table>thead>tr>th, table.match-table>thead>tr>td {
+    border-bottom-width: 2px;
+}
+
+td.blue {
+    background-color: #eef;
+}
+
+td.red {
+    background-color: #fee;
+}
+
+td.winner {
+    font-weight: bold;
+}
+
+td.current-team {
+    text-decoration: underline;
+}
+
+table.match-table>thead>tr>th, table.match-table>tbody>tr>th, table.match-table>tfoot>tr>th, table.match-table>thead>tr>td, table.match-table>tbody>tr>td, table.match-table>tfoot>tr>td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+td span.allianceSquare {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+td span.red{
+    background-color: rgb(255, 146, 146);
+}
+
+td span.blue{
+    background-color: rgb(146, 146, 255);
 }
