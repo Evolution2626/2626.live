@@ -67,28 +67,37 @@ function getMatchTimes(match){
 
 function loadMatchFromEvent(eventKey){
     fetch("https://www.thebluealliance.com/api/v3/team/frc2626/event/" + eventKey + "/matches?X-TBA-Auth-Key=" + tbaKey).then(function(response){
-    response.json().then(function(data){
+        response.json().then(function(data){
 
-        data.sort(function(a,b){return (new Date(a["time"]*1000) - new Date(b["time"]*1000))})
+            data.sort(function(a,b){return (new Date(a["time"]*1000) - new Date(b["time"]*1000))})
 
-        console.log(data)
-        if (data.length == 0) {
-            document.getElementById("horaireMatchStatus").innerText = "L'horaire des matchs n'est pas encore disponible";
-        }else{
-            document.getElementById("horaireMatchStatus").innerText = "";
-            document.getElementById("horaireMatchs").style.display = '';
-        }
-        
-        document.getElementById("eventVideosButton").href = "/archives#e=" + eventKey;
+            console.log(data)
+            if (data.length == 0) {
+                document.getElementById("horaireMatchStatus").innerText = "L'horaire des matchs n'est pas encore disponible";
+            }else{
+                document.getElementById("horaireMatchStatus").innerText = "";
+                document.getElementById("horaireMatchs").style.display = '';
+            }
+            
+            document.getElementById("eventVideosButton").href = "/archives#e=" + eventKey;
 
-        document.getElementById("matchTableBody").innerHTML = "";
+            document.getElementById("matchTableBody").innerHTML = "";
 
-        for (let i = 0; i < data.length; i++) {
-            const match = data[i];
-            document.getElementById("matchTableBody").innerHTML += generateRowForMatch(match);
-        }
+            for (let i = 0; i < data.length; i++) {
+                const match = data[i];
+                document.getElementById("matchTableBody").innerHTML += generateRowForMatch(match);
+            }
+        })
     })
-})
+
+
+    fetch("https://www.thebluealliance.com/api/v3/team/frc2626/event/" + eventKey + "/status?X-TBA-Auth-Key=" + tbaKey).then(function(response){
+        response.json().then(function(data){
+            let statusStr = generateStatusStringFromTeamAtEventStatus(data);
+            document.getElementById("competitionStatusStr").innerHTML = statusStr;
+        })
+    })
+
 }
 
 
@@ -178,4 +187,85 @@ function dateToText(d){
 
     return dateText;
 
+}
+
+function generateStatusStringFromTeamAtEventStatus(status) {
+    let statusString = "Nous sommes en attente du début de l'événement.";
+
+    if (!status) {
+        return statusString;
+    }
+
+    let qualStatusString = "";
+    let playoffStatusString = "";
+    if (status["qual"] && status["qual"]["ranking"]) {
+        let qualStatusStringSuffix = "au <b>rang " + status["qual"]["ranking"]["rank"] + "/" + status["qual"]["num_teams"] + "</b>";
+        if (status["qual"]["ranking"]["record"]) {
+            qualStatusStringSuffix += " avec une fiche de <b>" + status["qual"]["ranking"]["record"]["wins"] + "-" + status["qual"]["ranking"]["record"]["losses"] + "-" + status["qual"]["ranking"]["record"]["ties"] + "</b>";
+        }
+        qualStatusStringSuffix += " en ronde de qualification. ";
+        if (status["playoff"] || status["status"] == "completed") {
+            qualStatusString = "Nous étions " + qualStatusStringSuffix;
+        }else{
+            qualStatusString = "Nous sommes " + qualStatusStringSuffix;
+        }
+    }
+
+    if (status["playoff"]){
+        let playoffAlliancePickString = "";
+        if (status["alliance"]){
+            if (status["alliance"]["pick"] == 0) {
+                playoffAlliancePickString = "comme <b>capitaine";
+            }else{
+                playoffAlliancePickString = "comme <b>choix #" + status["alliance"]["pick"];
+            }
+            if (status["alliance"]["backup"] && status["alliance"]["backup"]["in"] == "frc2626") {
+                playoffAlliancePickString = "comme <b>robot de backup";
+            }
+            playoffAlliancePickString += "</b> de <b>l'" + status["alliance"]["name"] + "</b>";
+            if (status["playoff"]["status"] == "won" || status["playoff"]["status"] == "eliminated") {
+                playoffStatusString = "Nous avons été en séries éliminatoires " + playoffAlliancePickString + ".";
+            }else{
+                playoffStatusString = "Nous sommes présentement en " + getSetNameFromKey(status["playoff"]["level"]) + " " + playoffAlliancePickString + ".";
+            }
+        }
+
+        if (status["playoff"]["status"] == "won"){
+            playoffStatusString += " Nous avons <b>gagné l'événement</b>.";
+        } else if (status["playoff"]["status"] == "eliminated"){
+            playoffStatusString += " Nous avons <b>été éliminés en " + getSetNameFromKey(status["playoff"]["level"]) + "</b>";
+        }
+
+        if (status["playoff"]["record"]) {
+            playoffStatusString += " avec une fiche de <b>" + status["playoff"]["record"]["wins"] + "-" + status["playoff"]["record"]["losses"] + "-" + status["playoff"]["record"]["ties"] + "</b> en séries.";
+        }
+    }
+
+    if (qualStatusString != "" || playoffStatusString != "") {
+        statusString = qualStatusString + " " + playoffStatusString;
+    }
+
+    return statusString;
+    
+}
+
+function getSetNameFromKey(setKey){
+    switch (setKey) {
+        case "ef":
+            return "huitièmes de finale"
+            break;
+        case "qf":
+            return "quart de finale"
+            break;
+        case "sf":
+            return "demi-finale"
+            break;
+        case "f":
+            return "finale"
+            break;
+    
+        default:
+            return "qualification";
+            break;
+    }
 }
