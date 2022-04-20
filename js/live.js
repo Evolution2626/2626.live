@@ -32,7 +32,9 @@ function getCurrentEventFromSortedEventList(sortedEventList){
         
         if (daysBetweenDates(new Date(), new Date(event["start_date"])) <= 14) {
             if (!nextOrCurrentEvent || new Date(nextOrCurrentEvent["end_date"]) <= new Date() || new Date(event["start_date"]) <= new Date()) {
-                nextOrCurrentEvent = event;
+                if (event["key"] != "2022cmptx") { //quick fix pour le championship de houston en 2022. Va peut-être causé probleme si on est sur einstein ;)
+                    nextOrCurrentEvent = event;
+                }
             }
         }
     }

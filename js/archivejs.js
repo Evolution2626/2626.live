@@ -60,7 +60,7 @@ function getLatestEvent(events) {
     const event = events[i];
 
     if (!latestEvent || new Date(event["start_date"]) < new Date()) {
-      if (event["key"] != "2020qcmo"){
+      if ((event["key"] != "2020qcmo") && (event["key"] != "2022cmptx")){
         latestEvent = event;
       }
     }
