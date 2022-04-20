@@ -5,6 +5,7 @@ var team = hashparams["t"];
 var eventid = hashparams["e"];
 var matchkey = hashparams["m"];
 
+var eventsNotToShow = ["2020qcmo", "2022cmptx"]
 
 if (!team) team = 2626;
 
@@ -19,9 +20,13 @@ panelrequest.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     teamsyp = JSON.parse(this.responseText);
 
+    teamsyp.sort(function(a,b) {return new Date(a["start_date"]) - new Date(b["start_date"])})
+
     var lftmenu = document.getElementById('leftmenu');
     for (var i = teamsyp.length-1; i >=0 ; i--) {
-      lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="resetHash(); setHashParams([[\'e\', \'' + teamsyp[i]["key"] + '\']]); location.reload();">' + teamsyp[i]["key"] + '</li>';
+      if (!eventsNotToShow.includes(teamsyp[i]["key"])) {
+        lftmenu.innerHTML += '<li class="mdl-menu__item" onclick="resetHash(); setHashParams([[\'e\', \'' + teamsyp[i]["key"] + '\']]); location.reload();">' + teamsyp[i]["key"] + '</li>';
+      }
     }
 
     if (!eventid) eventid = getLatestEvent(teamsyp)["key"];
@@ -60,7 +65,7 @@ function getLatestEvent(events) {
     const event = events[i];
 
     if (!latestEvent || new Date(event["start_date"]) < new Date()) {
-      if ((event["key"] != "2020qcmo") && (event["key"] != "2022cmptx")){
+      if (!eventsNotToShow.includes(event["key"])){
         latestEvent = event;
       }
     }
