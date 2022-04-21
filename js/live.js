@@ -185,7 +185,7 @@ function dateToText(d){
         dateText += "Le " + d.toLocaleDateString("fr-CA", { month: 'long', day: 'numeric'}) + " ";
     }
 
-    dateText += "à " + d.getHours() + ":" + d.getMinutes();
+    dateText += "à " + d.getHours() + ":" + ('0' + d.getMinutes()).slice(-2);
 
     return dateText;
 
