@@ -7,16 +7,26 @@ fetch("https://www.thebluealliance.com/api/v3/team/frc2626/events?X-TBA-Auth-Key
         console.log(eventListSorted);
 
         let currentEvent = getCurrentEventFromSortedEventList(eventListSorted);
+
+        if (!currentEvent){
+            noCurrentEvent()
+        }else{
         
-        loadSideBarFormCurrentEvent(currentEvent);
+            loadSideBarFormCurrentEvent(currentEvent);
 
-        loadMatchFromEvent(currentEvent["key"]);
+            loadMatchFromEvent(currentEvent["key"]);
 
-        var sidebarEventLoop = setInterval(function(){ loadMatchFromEvent(currentEvent["key"]) }, 70000)
+            var sidebarEventLoop = setInterval(function(){ loadMatchFromEvent(currentEvent["key"]) }, 70000)
 
-        loadLivestreamsForEvent(currentEvent);
+            loadLivestreamsForEvent(currentEvent);
+        }
     })
 })
+
+function noCurrentEvent(){
+    document.getElementById("livestreamsDiv").innerHTML = '<h2 style="text-align: center;">Nous ne sommes pas présentement en compétition.</h2>'
+    document.getElementById("livestreamsDiv").innerHTML += '<h3 style="text-align: center;"><a href="/archives">Cliquez ici pour revisionner nos matchs.</a></h2>'
+}
 
 
 function daysBetweenDates(d1, d2){
