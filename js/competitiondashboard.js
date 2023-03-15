@@ -68,7 +68,7 @@ function updateNextMatchMessage(sortedMatches){
 function getNextMatch(sortedMatches){
     for (let i = 0; i < sortedMatches.length; i++) {
         const match = sortedMatches[i];
-        if (true || match["alliances"]["blue"]["score"] == -1 || match["alliances"]["red"]["score"] == -1) {
+        if (match["alliances"]["blue"]["score"] == -1 || match["alliances"]["red"]["score"] == -1) {
             return match;
         }
     }
