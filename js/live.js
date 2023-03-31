@@ -181,7 +181,7 @@ function loadLivestreamsForEvent(event){
 
 
             if (webcast["type"] == "twitch") {
-                if(webcast["channel"] == "FIRSTinspires23") webcast["channel"] = "FIRSTinspires25";
+                if(webcast["channel"] == "firstinspires23) webcast["channel"] = "firstinspires25";
                 document.getElementById("livestreamsDiv").innerHTML += '<iframe class="livestreamframe" src="https://player.twitch.tv/?channel=' + webcast["channel"] + '&parent=2626.live" allowfullscreen style="width: ' + livestreamWidth + '; height: ' + livestreamHeight + ';">';
             }
         }
