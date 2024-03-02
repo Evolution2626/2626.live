@@ -65,11 +65,11 @@ function getMatchTimes(match){
     }
 
     if (match["predicted_time"] && match["predicted_time"] > 0) {
-        return "Devrait être joué " + dateToText(new Date(match["predicted_time"]*1000));
+        return dateToText(new Date(match["predicted_time"]*1000));
     }
 
     if (match["time"]) {
-        return "Est prévu à l'horaire " + dateToText(new Date(match["time"]*1000));
+        return dateToText(new Date(match["time"]*1000));
     }
 
     return "";
@@ -194,7 +194,7 @@ function dateToText(d){
     let dateText = "";
 
     if ((new Date()).getDate() != d.getDate()) {
-        dateText += "Le " + d.toLocaleDateString("fr-CA", { month: 'long', day: 'numeric'}) + " ";
+        dateText += d.toLocaleDateString("fr-CA", { month: 'long', day: 'numeric'}) + " ";
     }
 
     dateText += "à " + d.getHours() + ":" + ('0' + d.getMinutes()).slice(-2);
