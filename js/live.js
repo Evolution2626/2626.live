@@ -194,10 +194,10 @@ function dateToText(d){
     let dateText = "";
 
     if ((new Date()).getDate() != d.getDate()) {
-        dateText += d.toLocaleDateString("fr-CA", { month: 'long', day: 'numeric'}) + " ";
+        dateText += d.toLocaleDateString("fr-CA", { month: 'long', day: 'numeric'}) + " à ";
     }
 
-    dateText += "à " + d.getHours() + ":" + ('0' + d.getMinutes()).slice(-2);
+    dateText += d.getHours() + ":" + ('0' + d.getMinutes()).slice(-2);
 
     return dateText;
 
