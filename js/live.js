@@ -159,7 +159,38 @@ function getMatchName(match){
 
 function loadLivestreamsForEvent(event){
     if (event["webcasts"] && event["webcasts"].length > 0) {
-        const webcast = event["webcasts"][0];
+        const webcastsWithDate = event["webcasts"].filter(function(webcast){ return webcast["date"]; });
+
+        let webcast = null;
+
+        if (webcastsWithDate.length > 0) {
+            webcastsWithDate.sort(function(a,b){ return new Date(a["date"]) - new Date(b["date"]); });
+
+            const firstWebcastDate = webcastsWithDate[0]["date"];
+            const lastWebcastDate = webcastsWithDate[webcastsWithDate.length - 1]["date"];
+            const today = (new Date()).toLocaleDateString("en-CA");
+
+            let targetDate = today;
+            if (event["start_date"] && today < event["start_date"]) {
+                targetDate = firstWebcastDate;
+            } else if (event["end_date"] && today > event["end_date"]) {
+                targetDate = lastWebcastDate;
+            }
+
+            webcast = webcastsWithDate.find(function(webcastItem){ return webcastItem["date"] == targetDate; });
+
+            if (!webcast) {
+                if (targetDate <= firstWebcastDate) {
+                    webcast = webcastsWithDate[0];
+                } else if (targetDate >= lastWebcastDate) {
+                    webcast = webcastsWithDate[webcastsWithDate.length - 1];
+                }
+            }
+        }
+
+        if (!webcast) {
+            webcast = event["webcasts"][0];
+        }
 
         document.getElementById("livestreamsDiv").innerHTML = "";
 
