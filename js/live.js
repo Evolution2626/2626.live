@@ -159,32 +159,16 @@ function getMatchName(match){
 
 function loadLivestreamsForEvent(event){
     if (event["webcasts"] && event["webcasts"].length > 0) {
-        let livestreamWidth = "100%";
-        let livestreamHeight = "100%";
-
-        if (event["webcasts"].length >= 2){
-            let windowWidth = document.getElementById("livestreamsDiv").offsetWidth;
-            let windowHeight = document.getElementById("livestreamsDiv").offsetHeight;
-            console.log(windowWidth)
-            console.log(windowHeight)
-            if (((16/9) * (windowHeight/2)) < (windowWidth/2)) {
-                livestreamWidth = "50%";
-                console.log((16/9) * windowHeight)
-            }else{
-                livestreamHeight = "50%";
-            }
-        }
+        const webcast = event["webcasts"][0];
 
         document.getElementById("livestreamsDiv").innerHTML = "";
-        for (let i = 0; i < event["webcasts"].length && i < 2; i++) {
-            const webcast = event["webcasts"][i];
 
-
-            if (webcast["type"] == "twitch") {
-                if(webcast["channel"] == "firstinspires23") webcast["channel"] = "firstinspires25";
-                document.getElementById("livestreamsDiv").innerHTML += '<iframe class="livestreamframe" src="https://player.twitch.tv/?channel=' + webcast["channel"] + '&parent=2626.live" allowfullscreen style="width: ' + livestreamWidth + '; height: ' + livestreamHeight + ';">';
-            }
+        if (webcast["type"] == "youtube") {
+            document.getElementById("livestreamsDiv").innerHTML = '<iframe class="livestreamframe" src="https://www.youtube.com/embed/' + webcast["channel"] + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: 100%;"></iframe>';
+            return;
         }
+
+        document.getElementById("livestreamsDiv").innerHTML = '<h3 style="text-align: center;">La diffusion en direct de cet événement n\'est pas encore disponible.</h3>';
     } else {
         document.getElementById("livestreamsDiv").innerHTML = '<h3 style="text-align: center;">La diffusion en direct de cet événement n\'est pas encore disponible.</h3>';
     }

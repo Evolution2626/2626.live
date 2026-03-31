@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 
     <link rel="icon" type="image/x-icon" href="https://evolution2626.org/assets/img/favicon.ico">
@@ -22,7 +24,7 @@
     <meta property="og:site_name" content="Evolution 2626 en direct" />
 </head>
 
-<header>
+<body>
   <!-- Always shows a header, even in smaller screens. -->
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
@@ -71,14 +73,16 @@
         </div>
     </main>
   </div>
-</header>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93477387-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93477387-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    gtag('config', 'UA-93477387-1');
+  </script>
+</body>
 
-  gtag('config', 'UA-93477387-1');
-</script>
+
+</html>
